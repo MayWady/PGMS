@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ZinKoLattMapper">
+
+	<select id="getPlaythingReport"
+		parameterType="PlaythingReportRequestDao" resultMap="result">
+
+		SELECT pc.plaything_categories_name, tp.date,
+		p.plaything_id,p.plaything_name,p.running_count, p.play_count,
+		p.maintenance_count,
+		p.service_count, ps.plaything_status,
+		(p.maintenance_count*p.service_count)+p.running_count as total from
+		plaything_categories pc,
+		plaything p, ticket_plaything tp ,
+		plaything_status ps where
+		p.plaything_id=tp.plaything_id and
+		p.plaything_categories_id=pc.plaything_categories_id
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="playthingCategory !=0" >p.plaything_categories_id=#{playthingCategory}</if>
+			<if test="plaything !=0">p.plaything_id=#{plaything}</if>
+			<if test="validFrom !=null">AND BETWEEN tp.date=#{validFrom} AND tp.date=#{validTo}
+			</if>
+			<if test="runningCount !=0">AND p.running_count=#{runningCount}</if>
+			<if test="playCount !=0">AND p.play_count=#{playCount}</if>
+		</trim>
+	</select>
+
+	<resultMap id="result" type="PlaythingReportResponseDao">
+		<result property="playthingCategory"
+			column="pc.plaything_categories" />
+		<result property="date" column="tp.date" />
+		<result property="playthingId" column="p.plaything_id" />
+		<result property="plaything" column="p.plaything_name" />
+		<result property="runningCount" column="p.running_count" />
+		<result property="maintenanceCount" column="p.maintenanceCount" />
+		<result property="playCount" column="p.play_count" />
+		<result property="serviceCount" column="p.service_count" />
+		<result property="playthingStatus" column="ps.plaything_status" />
+		<result property="totalRunningCount" column="total" />
+	</resultMap>
+
+
+</mapper>

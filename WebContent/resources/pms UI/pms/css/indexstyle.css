@@ -1,0 +1,25 @@
+.index{
+	margin-left: 0px;
+	margin: 3px;
+	min-height: 500px;
+	background-color: gold;
+
+}
+.a{
+	color: white;
+}
+
+.login{
+    max-height: 300px;
+	width: 400px;
+	height: 250px;
+	margin:50px 50px 100px 210px; 
+}
+
+.playting-register{
+	 max-height: 800px;
+	width: 600px;
+	height: 800px;
+	margin:100px 50px 100px 200px;  
+}
+

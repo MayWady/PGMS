@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TicketMapper">
+
+	<insert id="ticketInsert" parameterType="TicketRequestDao">
+		INSERT INTO ticket
+		(ticket_id,customer_name,valid_from,valid_to,topup_amount,balance,date,ticket_status_id,ticket_type_id,member_id,quantity,ticket_price,discount)
+		VALUES
+		(#{ticketId},#{customerName},#{validFrom},#{validTo},#{topupAmount},#{balance},#{date},#{ticketStatus},#{ticketType},#{memberId},#{quantity},#{ticketPrice},#{discount});
+	</insert>
+
+	<insert id="topupAmountInsert"
+		parameterType="TopupAMountRequestDao">
+		INSERT INTO topup_amount (topup_amount,
+		date,
+		time,ticket_id,total_balance) VALUES
+		(#{topupAmount},
+		#{date},
+		#{time},#{ticketId},#{totalBalance});
+	</insert>
+
+	<!-- <select id="getAllTicket" resultMap="result" parameterType="TicketRequestDao"> 
+		SELECT * FROM ticket <trim prefix="WHERE" prefixOverrides="AND"> <if test="ticketId 
+		!= null"> ticket_id = #{ticketId} </if> <if test="customerName != null"> 
+		AND customer_name = #{customerName} </if> <if test="ticketType != null"> 
+		AND ticket_type = #{ticketType} </if> <if test="memberId != null"> AND member_id 
+		= #{memberId} </if> <if test="validFrom != null"> AND valid_from = #{validFrom} 
+		</if> <if test="validTo != null"> AND valid_to = #{validTo} </if> <if test="date 
+		!= null"> AND date = #{date} </if> <if test="ticketStatus != null"> AND AND 
+		ticket_status = #{ticketStatus} </if> </trim> </select> -->
+
+
+
+	<!-- <select id="getAllTicket" resultMap="result" parameterType="TicketRequestDao"> 
+		SELECT * FROM ticket <trim prefix="WHERE" prefixOverrides="AND"> <if test="ticketId 
+		!= null"> ticket_id = #{ticketId} </if> <if test="customerName != null"> 
+		AND customer_name = #{customerName} </if> <if test="ticketType != null"> 
+		AND ticket_type = #{ticketType} </if> <if test="memberId != null"> AND member_id 
+		= #{memberId} </if> <if test="date != null"> AND date = #{date} </if> <if 
+		test="validTo != null"> AND valid_to = #{validTo} </if> <if test="validFrom 
+		!= null"> AND valid_from = #{validFrom} </if> <if test="ticketStatus != null"> 
+		AND AND ticket_status = #{ticketStatus} </if> </trim> </select> -->
+
+
+	<select id="getAllTicket" resultMap="result"
+		parameterType="TicketRequestDao">
+		SELECT *
+		FROM ticket
+
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="ticketId != null">ticket_id = #{ticketId}</if>
+			<if test="customerName != null">AND customer_name = #{customerName}</if>
+			<!-- <if test="ticketType != 0">ticket_type_id = #{ticketType}</if> -->
+			<if test="memberId != null">AND member_id = #{memberId}</if>
+			<if test="date != null">AND date &lt;= #{date}</if>
+			<if test="ticketStatus != 0">AND ticket_status_id = #{ticketStatus}</if>
+			<if test="validFrom != null">AND valid_from &gt;= #{validFrom}</if>
+			<if test="validTo != null">AND valid_to &lt;= #{validTo}</if>
+		</trim>
+	</select>
+
+
+
+	<update id="ticketUpdate" parameterType="TicketRequestDao">
+		UPDATE ticket SET
+		ticket_id=#{ticketId}, customer_name=#{customerName},
+		valid_from=#{validFrom}, valid_to=#{validTo},
+		topup_amount=#{topupAmount}, balance=#{balance},
+		date=#{date},
+		ticket_status_id=#{ticketStatus}, ticket_type_id
+		=#{ticketType},
+		member_id=#{memberId},quantity=#{quantity},ticket_price=#{ticketPrice},discount=#{discount}
+		WHERE
+		ticket_id=#{ticketId};
+	</update>
+
+	<delete id="ticketDelete" parameterType="TicketRequestDao">
+		UPDATE ticket SET
+		ticket_status_id=#{ticketStatus}
+		WHERE ticket_id=#{ticketId};
+	</delete>
+
+	<select id="getId" resultMap="idresult">
+		SELECT MAX(ticket_id) as ticket_id
+		FROM
+		ticket;
+	</select>
+
+	<!-- <select id="getTicketId" resultMap="idresult"> SELECT ticket_id FROM 
+		ticket WHERE ticket_id=#{ticketId}; </select> -->
+
+	<resultMap type="String" id="idresult">
+		<result property="id" column="ticket_id" />
+	</resultMap>
+
+
+	<select id="getById" resultMap="result">
+		SELECT
+		balance,ticket_price,discount,quantity FROM
+		ticket
+		WHERE
+		ticket_id=#{ticketId};
+
+	</select>
+
+	<resultMap id="result" type="TicketResponseDao">
+		<result property="ticketId" column="ticket_id" />
+		<result property="customerName" column="customer_name" />
+		<result property="validFrom" column="valid_from" />
+		<result property="validTo" column="valid_to" />
+		<result property="topupAmount" column="topup_amount" />
+		<result property="balance" column="balance" />
+		<result property="date" column="date" />
+		<result property="ticketStatus" column="ticket_status_id" />
+		<result property="ticketType" column="ticket_type_id" />
+		<result property="memberId" column="member_id" />
+		<result property="quantity" column="quantity" />
+		<result property="ticketPrice" column="ticket_price" />
+		<result property="discount" column="discount" />
+	</resultMap>
+
+	<select id="getStatusName" resultMap="statusResult"
+		parameterType="int">
+		SELECT ticket_status FROM ticket_status WHERE
+		ticket_status_id=#{ticketStatus};
+	</select>
+
+	<resultMap type="String" id="statusResult">
+		<result column="ticket_status" property="name" />
+	</resultMap>
+
+	<select id="getTicketTypeName" resultMap="ticketTypeResult"
+		parameterType="String">
+		SELECT ticket_type_name FROM ticket_type WHERE
+		ticket_type_id=#{ticketType};
+	</select>
+
+	<resultMap type="String" id="ticketTypeResult">
+		<result column="ticket_type_name" property="name" />
+	</resultMap>
+
+	<select id="getTicketTypeId" resultMap="ticketTypeIdResult"
+		parameterType="String">
+		SELECT ticket_type_id
+		FROM
+		ticket where
+		ticket_id=#{ticketId};
+	</select>
+
+	<resultMap type="String" id="ticketTypeIdResult">
+		<result property="id" column="ticket_type_id" />
+	</resultMap>
+</mapper>

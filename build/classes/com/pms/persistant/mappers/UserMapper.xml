@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="UserMapper">
+
+	<insert id="userInsert" parameterType="UserRequestDao">
+		INSERT INTO user (user_id,
+		user_name, password, nrc, address, phone, email, role_id,
+		user_status_id) VALUES
+		(#{userId}, #{userName}, #{password}, #{nrc},
+		#{address}, #{phone}, #{email}, #{role}, #{userStatus});
+	</insert>
+
+	<select id="getAllUser" resultMap="result">
+		SELECT * FROM user
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="userId != null"> user_id = #{userId} </if>
+			<if test="userName != null"> AND user_name = #{userName} </if>
+			<if test="nrc != null"> AND nrc = #{nrc} </if>
+			<if test="role != 0"> AND role_id = #{role} </if>
+			<if test="userStatus != 0"> AND user_status_id = #{userStatus} </if>
+		</trim>
+	</select>
+
+	<resultMap id="result" type="UserResponseDao">
+		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
+		<result property="nrc" column="nrc" />
+		<result property="address" column="address" />
+		<result property="phone" column="phone" />
+		<result property="email" column="email" />
+		<result property="role" column="role_id" />
+		<result property="password" column="password" />		
+		<result property="userStatus" column="user_status_id" />
+	</resultMap>
+
+	<update id="userUpdate" parameterType="UserRequestDao">
+		UPDATE user SET
+		user_id =
+		#{userId}, user_name = #{userName}, password = #{password}, nrc =
+		#{nrc}, address = #{address}, phone = #{phone}, email = #{email},
+		role_id=#{role}, user_status_id =#{userStatus}
+		WHERE user_id =
+		#{userId};
+	</update>
+	
+	<update id="changePassword" parameterType="UserRequestDao">
+		UPDATE user SET
+		password = #{password} WHERE user_id=#{userId};
+	</update>
+
+	<delete id="userDelete" parameterType="UserRequestDao">
+		DELETE FROM user WHERE
+		user_id= #{userId} AND user_id NOT IN ( SELECT user_id from user);
+	</delete>
+
+	<select id="getId" resultMap="idresult">
+		SELECT MAX(user_id) as user_id FROM
+		user;
+	</select>
+
+	<resultMap type="String" id="idresult">
+		<result property="id" column="user_id" />
+	</resultMap>
+</mapper>

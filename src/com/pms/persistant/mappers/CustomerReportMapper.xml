@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CustomerReportMapper">
+
+	<select id="getCustomerReport"
+		parameterType="CustomerReportRequestDao" resultMap="result">
+	
+		SELECT * FROM ticket as t INNER JOIN ticket_plaything as tp
+		<trim prefix="WHERE" prefixOverrides="AND">
+		<if test="customerName !=null">t.customer_name=#{customerName}</if>
+		<if test="ticketId !=null">AND t.ticket_id=#{memberName}</if>
+		<if test="date !=null">AND BETWEEN tp.date=#{validFrom} AND tp.date=#{validTo}</if>
+		<if test="time !=null">AND tp.time=#{time}</if>
+		<if test="balance !=null">AND t.balance=#{balance}</if>
+		</trim>
+	</select>
+
+	<resultMap id="result" type="CustomerReportResponseDao">
+		<result property="customerName" column="t.customer_name" />
+		<result property="ticketId" column="t.ticket_id" />
+		<result property="date" column="tp.date" />
+		<result property="time" column="tp.time" />
+	</resultMap>
+	
+
+</mapper>

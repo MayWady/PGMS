@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TicketPlaythingStatusMapper">
+	<insert id="playStatusInsert"
+		parameterType="PlayStatusRequestDao">
+		INSERT INTO ticket_plaything_status (ticket_plaything_status) VALUES
+		(#{name});
+	</insert>
+
+	<select id="getAllPlayStatus" resultMap="result">
+		SELECT * FROM ticket_plaything_status;
+	</select>
+
+	<resultMap id="result" type="PlayStatusResponseDao">
+		<result property="id" column="ticket_plaything_status_id" />
+		<result property="name" column="ticket_plaything_status"/>
+	</resultMap>
+	
+	<update id="playStatusUpdate" parameterType="PlayStatusRequestDao">
+		UPDATE ticket_plaything_status SET
+		ticket_plaything_status = #{name}
+		WHERE ticket_plaything_status_id= #{id};
+	</update>
+	
+	<delete id="playStatusDelete" parameterType="PlayStatusRequestDao">
+		DELETE FROM ticket_plaything_status WHERE 
+		ticket_plaything_status_id=#{id} and ticket_plaything_status_id NOT IN (select ticket_plaything_status_id from ticket_plaything);
+	</delete>
+</mapper>

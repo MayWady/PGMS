@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MemberDiscountMapper">
+
+	<select id="getById" resultMap="resultdiscount"
+		parameterType="String">
+		SELECT percentage_discount FROM
+		member_type WHERE
+		member_type_id=(SELECT member_type_id FROM
+		membership WHERE member_id=
+		#{memberId});
+	</select>
+
+	<resultMap type="String" id="resultdiscount">
+
+		<result property="discount" column="percentage_discount" />
+	</resultMap>
+
+
+
+
+
+</mapper>

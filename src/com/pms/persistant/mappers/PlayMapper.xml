@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PlayMapper">
+
+	<insert id="playInsert" parameterType="PlayRequestDao">
+		INSERT INTO
+		ticket_plaything
+		(ticket_id,plaything_id,date,time,status)
+		VALUES
+		(#{ticketId},#{playthingId},#{date},#{time},#{status});
+	</insert>
+
+	<select id="getAllPlay" resultMap="result">
+		SELECT * FROM
+		ticket_plaything WHERE plaything_id=#{playthingId} AND status=0;
+	</select>
+
+	<resultMap id="result" type="PlayResponseDao">
+		<result property="ticketId" column="ticket_id" />
+		<result property="time" column="time" />
+		<result property="playthingId" column="plaything_id" />
+		<result property="date" column="date" />
+	</resultMap>
+
+	<select id="getPlaything" resultMap="plaything"
+		parameterType="TicketTypePlaythingRequestDao">
+		select plaything_id from ticket_type_plaything where
+		plaything_id=#{playthingId}
+		and ticket_type_id=(select ticket_type_id from ticket where
+		ticket_id=#{ticketId});
+	</select>
+	
+	<resultMap type="String" id="plaything">
+		<result property="id" column="plaything_id"/>
+	</resultMap>
+	
+	<update id="updatePlay" parameterType="PlayRequestDao">
+		UPDATE ticket_plaything SET status=#{status}
+		WHERE plaything_id=#{playthingId};
+	</update>
+	
+	<update id="updatePlaything" parameterType="PlaythingRequestDao">
+		UPDATE plaything SET running_count=running_count+1, play_count=play_count+#{playCount}
+		WHERE plaything_id=#{playthingId};
+	</update>
+
+</mapper>

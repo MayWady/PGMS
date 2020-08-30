@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TicketTypePlayMapper">
+
+	<select id="getTicketTypeId"
+		resultMap="ticketTypeIdResult" parameterType="String">
+		SELECT ticket_type_id
+		FROM
+		ticket_type_plaything where
+		plaything_id=#{playthingId};
+	</select>
+
+	<resultMap type="String" id="ticketTypeIdResult">
+		<result property="id" column="ticket_type_id" />
+	</resultMap>
+
+</mapper>

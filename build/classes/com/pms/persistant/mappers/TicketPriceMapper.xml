@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TicketPriceMapper">
+
+	<select id="getById" resultMap="result">
+		SELECT price FROM
+		ticket_type
+		WHERE ticket_type_id=#{ticketTypeId};
+
+	</select>
+
+	<resultMap id="result" type="TicketTypeResponseDao">
+		<result property="ticketTypeId" column="ticket_type_id" />
+		<result property="ticketTypeName" column="ticket_type_name" />
+		<result property="price" column="price" />
+		<result property="validFrom" column="valid_from" />
+		<result property="validTo" column="valid_to" />
+		<result property="ticketTypeStatus"
+			column="ticket_type_status_id" />
+	</resultMap>
+
+</mapper>

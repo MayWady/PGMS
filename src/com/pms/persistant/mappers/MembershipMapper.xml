@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MembershipMapper">
+
+	<insert id="membershipInsert"
+		parameterType="MembershipRequestDao">
+		INSERT INTO membership
+		(member_id,member_name,phone,nrc,address,valid_from,valid_to,membership_status_id,member_type_id,date)
+		VALUES
+		(#{memberId},
+		#{memberName},#{phone},#{nrc},#{address},#{validFrom},#{validTo},#{membershipStatusId},#{memberType},#{date});
+	</insert>
+
+	<update id="membershipUpdate"
+		parameterType="MembershipRequestDao">
+		UPDATE membership SET
+		member_name =
+		#{memberName},valid_from = #{validFrom},valid_to
+		=
+		#{validTo},membership_status_id =
+		#{membershipStatusId},member_type_id=#{memberType}
+		,nrc=#{nrc},address=#{address},phone=#{phone}
+		WHERE
+		member_id=
+		#{memberId};
+	</update>
+
+	<delete id="membershipDelete"
+		parameterType="MembershipRequestDao">
+		DELETE FROM membership WHERE
+		member_id=#{memberId};
+	</delete>
+
+	<select id="getAllMembership" resultMap="result">
+		SELECT * FROM
+		membership
+		<trim prefix="WHERE" prefixOverrides="AND">
+		<if test="memberId !=null">member_id=#{memberId}</if>
+		<if test="memberName !=null">AND member_name=#{memberName}</if>
+		<if test=" nrc !=null">AND nrc=#{nrc}</if>
+		<if test="phone !=null">AND phone=#{phone}</if>
+		<if test="address !=null">AND address=#{address}</if>
+		<if test="validFrom !=null">AND valid_from &gt;=#{validFrom}</if>
+		<if test="validTo !=null">AND valid_to &lt;=#{validTo}</if>
+		<if test="membershipStatusId !=0">AND membership_status_id=#{membershipStatusId}</if>
+		<if test="memberType !=0">AND member_type_id=#{memberType}</if>
+		</trim>
+	</select>
+
+	<resultMap id="result" type="MembershipResponseDao">
+		<result property="memberId" column="member_id" />
+		<result property="memberName" column="member_name" />
+		<result property="validFrom" column="valid_from" />
+		<result property="validTo" column="valid_to" />
+		<result property="date" column="date" />
+		<result property="membershipStatusId"
+			column="membership_status_id" />
+		<result property="memberType" column="member_type_id" />
+	</resultMap>
+	
+	<select id="getData" resultMap="data" parameterType="MemberTypeRequestDao">
+		SELECT price,percentage_discount FROM member_type WHERE member_type_id=#{memberTypeid};
+	</select>
+	
+	<resultMap id="data" type="MemberTypeResponseDao">
+		<result property="perdiscount" column="percentage_discount" />
+		<result property="price" column="price" />
+		
+	</resultMap>
+
+
+	<select id="getId" resultMap="idresult">
+		SELECT MAX(member_id) as member_id
+		FROM membership;
+	</select>
+
+	<resultMap type="String" id="idresult">
+		<result property="id" column="member_id" />
+	</resultMap>
+	
+	<select id="getStatus" resultMap="statusresult" parameterType="String">
+		SELECT membership_status
+		FROM membership_status WHERE membership_status_id=#{id};
+	</select>
+
+	<resultMap type="String" id="statusresult">
+		<result property="name" column="membership_status" />
+	</resultMap>
+	
+	<select id="getType" resultMap="typeresult" parameterType="String">
+		SELECT member_type_name
+		FROM member_type WHERE member_type_id=#{id};
+	</select>
+
+	<resultMap type="String" id="typeresult">
+		<result property="name" column="member_type_name" />
+	</resultMap>
+
+</mapper>

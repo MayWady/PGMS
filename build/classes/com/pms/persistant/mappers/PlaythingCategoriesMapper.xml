@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PlaythingCategoriesMapper">
+
+	<insert id="playthingCategoriesInsert"
+		parameterType="PlaythingCategoriesRequestDao">
+		INSERT INTO
+		plaything_categories
+		(plaything_categories_name) VALUES
+		(#{name});
+	</insert>
+
+	<select id="getAllPlaythingCategories" resultMap="result" >
+		SELECT * FROM
+		plaything_categories;
+	</select>
+
+	<resultMap id="result" type="PlaythingCategoriesResponseDao">
+		<result property="id" column="plaything_categories_id" />
+		<result property="name" column="plaything_categories_name" />
+	</resultMap>
+
+	<update id="playthingCategoriesUpdate"
+		parameterType="PlaythingCategoriesRequestDao">
+		UPDATE
+		plaything_categories SET
+		plaything_categories_name
+		= #{name}
+		WHERE
+		plaything_categories_id=
+		#{id};
+	</update>
+
+	<delete id="playthingCategoriesDelete"
+		parameterType="PlaythingCategoriesRequestDao">
+		DELETE FROM plaything_categories WHERE
+		plaything_categories_id=#{id};
+	</delete>
+
+</mapper>

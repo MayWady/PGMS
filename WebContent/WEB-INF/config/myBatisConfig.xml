@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<package name="com.pms.persistant.dao"></package>
+
+	</typeAliases>
+
+	<mappers>
+		<mapper resource="com/pms/persistant/mappers/LoginMapper.xml" />
+		<mapper resource="com/pms/persistant/mappers/UserMapper.xml" />
+		<mapper
+			resource="com/pms/persistant/mappers/CustomerReportMapper.xml" />
+	<mapper
+			resource="com/pms/persistant/mappers/ZinKoLattMapper.xml" /> 
+		<mapper
+			resource="com/pms/persistant/mappers/TicketTypeMapper.xml" />
+		<mapper
+			resource="com/pms/persistant/mappers/UserStatusMapper.xml" />
+		<mapper
+			resource="com/pms/persistant/mappers/TicketStatusMapper.xml" />
+		<mapper
+			resource="com/pms/persistant/mappers/TicketTypeStatusMapper.xml" />
+		<mapper resource="com/pms/persistant/mappers/UserMapper.xml" />
+		<mapper
+			resource="com/pms/persistant/mappers/PlaythingStatusMapper.xml" />
+		<mapper
+			resource="com/pms/persistant/mappers/MembershipStatusMapper.xml" />
+		<mapper
+			resource="com/pms/persistant/mappers/TopupAmountMapper.xml" />
+		<mapper
+			resource="com/pms/persistant/mappers/TicketPlaythingStatusMapper.xml" />
+		<mapper
+			resource="com/pms/persistant/mappers/PlaythingMapper.xml" />
+		<mapper
+			resource="com/pms/persistant/mappers/PlaythingCategoriesMapper.xml" />
+		<mapper resource="com/pms/persistant/mappers/TicketMapper.xml" />
+		<mapper
+			resource="com/pms/persistant/mappers/TicketPriceMapper.xml" />
+		<mapper
+			resource="com/pms/persistant/mappers/MemberTypeMapper.xml" />
+		<mapper
+			resource="com/pms/persistant/mappers/MemberDiscountMapper.xml" />
+
+		<mapper
+			resource="com/pms/persistant/mappers/MembershipMapper.xml" />
+
+		<mapper
+			resource="com/pms/persistant/mappers/TopupAmountMapper.xml" />
+		<mapper resource="com/pms/persistant/mappers/PlayMapper.xml" />
+
+		<mapper
+			resource="com/pms/persistant/mappers/ChangePasswordMapper.xml" />
+			
+			<mapper
+			resource="com/pms/persistant/mappers/PlaythingSelectMapper.xml" />
+	</mappers>
+
+</configuration>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TopupAmountMapper">
+
+	<insert id="topupAmountInsert"
+		parameterType="TopupAMountRequestDao">
+		INSERT INTO topup_amount (topup_amount_id,
+		topup_amount,
+		date, time,ticket_id,total_balance) VALUES
+		(#{topupAmountId},
+		#{topupAmount}, #{date},
+		#{time},#{ticketId},#{totalBalance});
+	</insert>
+
+
+
+	<select id="getAllTopupAmount" resultMap="result"
+		parameterType="TopupAmountRequestDao">
+		SELECT *
+		FROM topup_amount
+
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="ticketId != null">ticket_id = #{ticketId}</if>
+			<if test="date != null">AND date &lt;= #{date}</if>
+		</trim>
+	</select>
+
+
+
+	<update id="topupAmountUpdate"
+		parameterType="TopupAmountRequestDao">
+		UPDATE topup_amount SET
+		topup_amount =
+		#{topupAmount},ticket_id
+		= #{ticketId},
+		total_balance = #{totalBalance}
+		WHERE
+		ticket_id =
+		#{ticketId};
+	</update>
+
+	<update id="ticketUpdate" parameterType="TicketRequestDao">
+		UPDATE ticket SET
+		balance=#{balance}
+		WHERE
+		ticket_id=#{ticketId};
+	</update>
+
+	<delete id="topupAmountDelete"
+		parameterType="TopupAmountRequestDao"> DELETE from
+		topup_amount
+		WHERE
+		ticket_id = #{ticketId};
+	</delete>
+
+
+	<select id="getById" parameterType="TopupAmountRequestDao"
+		resultMap="result">
+		SELECT * FROM topup_amount WHERE ticket_id =
+		#{ticketId};
+	</select>
+
+	<select id="getTicketId" resultMap="result">
+		SELECT ticket_id
+		FROM
+		topup_amount
+		WHERE
+		ticket_id=#{ticketId};
+	</select>
+
+	<resultMap id="result" type="TopupAmountResponseDao">
+		<result property="topupAmountId" column="topup_amount_id" />
+		<result property="topupAmount" column="topup_amount" />
+		<result property="date" column="date" />
+		<result property="time" column="time" />
+		<result property="ticketId" column="ticket_id" />
+		<result property="balance" column="balance" />
+		<result property="totalBalance" column="total_balance" />
+	</resultMap>
+
+</mapper>
+

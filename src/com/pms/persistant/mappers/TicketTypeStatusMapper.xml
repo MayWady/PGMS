@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TicketTypeStatusMapper">
+
+	<insert id="tickettypeStatusInsert"
+		parameterType="TicketStatusRequestDao">
+		INSERT INTO ticket_type_status (ticket_type_status) VALUES
+		(#{name});
+	</insert>
+
+	<select id="getAllTicketTypeStatus" resultMap="result">
+		SELECT * FROM ticket_type_status;
+	</select>
+
+	<resultMap id="result" type="TicketTypeStatusResponseDao">
+		<result property="id" column="ticket_type_status_id" />
+		<result property="name" column="ticket_type_status" />
+	</resultMap>
+	
+	<update id="tickettypeStatusUpdate" parameterType="TicketTypeStatusRequestDao">
+		UPDATE ticket_type_status SET
+		ticket_type_status = #{name}
+		WHERE ticket_type_status_id= #{id};
+	</update>
+	
+	<delete id="tickettypeStatusDelete" parameterType="TicketTypeStatusRequestDao">
+		DELETE FROM ticket_type_status WHERE 
+		ticket_type_status_id= #{id} and ticket_type_status_id NOT IN (select ticket_type_status_id from ticket_type);
+	</delete>
+
+</mapper>

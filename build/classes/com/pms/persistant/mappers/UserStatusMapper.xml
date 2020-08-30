@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="UserStatusMapper">
+
+	<insert id="userStautsInsert"
+		parameterType="UserStatusRequestDao">
+		INSERT INTO user_status (user_status) VALUES
+		(#{name});
+	</insert>
+
+	<select id="getAllUserStatus" resultMap="result">
+		SELECT * FROM user_status;
+	</select>
+
+	<select id="getUserStatus" resultMap="result">
+		SELECT user_status FROM user_status where user_status_id=#{id};
+	</select>
+
+	<resultMap id="result" type="UserStatusResponseDao">
+		<result property="id" column="user_status_id" />
+		<result property="name" column="user_status" />
+	</resultMap>
+	
+	<update id="userStatusUpdate" parameterType="UserStatusRequestDao">
+		UPDATE user_status SET
+		user_status = #{name}
+		WHERE user_status_id= #{id};
+	</update>
+	
+	<delete id="userStatusDelete" parameterType="UserStatusRequestDao">
+		DELETE FROM user_status WHERE 
+		user_status_id=#{id} and user_status_id NOT IN (select user_status_id from user);
+	</delete>
+
+</mapper>

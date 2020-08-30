@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MembershipStatusMapper">
+
+	<insert id="membershipStautsInsert"
+		parameterType="MembershipStatusRequestDao">
+		INSERT INTO membership_status (membership_status) VALUES
+		(#{name});
+	</insert>
+
+	<select id="getAllMembershipStatus" resultMap="result">
+		SELECT * FROM membership_status;
+	</select>
+
+	<resultMap id="result" type="MembershipStatusResponseDao">
+		<result property="id" column="membership_status_id" />
+		<result property="name" column="membership_status" />
+	</resultMap>
+	
+	<update id="membershipStatusUpdate" parameterType="MembershipStatusRequestDao">
+		UPDATE membership_status SET
+		membership_status = #{name}
+		WHERE membership_status_id= #{id};
+	</update>
+	
+	<delete id="membershipStatusDelete" parameterType="MembershipStatusRequestDao">
+		DELETE FROM membership_status WHERE 
+		membership_status_id=#{id} and membership_status_id NOT IN(select membership_status_id from membership);
+	</delete>
+
+</mapper>

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="pms/css/style.css">
+
+  <title>Hello, world!</title>
+</head>
+<body bgcolor="gold" font-color="red">
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="dist/js/jquery-3.3.1.slim.min.js"></script>
+  <script src="dist/js/popper.min.js"></script>
+  <script src="dist/js/bootstrap.min.js"></script>
+<div class="position-absolute">
+  <div class="ticket-register">
+    <form action="" method="post" enctype="multipart/form-data" align="pull-center">
+      <table class="tableForm tableStyle">
+        <tr >
+          <td colspan="2"><marquee bgcolor="#0FBF00" class="tblSingleLabel">Ticket Register</marquee></td>
+
+        </tr>
+        <tr class="form-group table-warning">
+          <td><input type="text">Ticket ID</td>
+          <td class=""><input type="text" name="name" class="form-control" id="name"></td>
+        </tr>
+        <tr class="form-group table-warning">
+          <td><label for="class">Ticket Type</label></td>
+          <td><select name="class" id="class" class="form-control" >
+            <option value="">Select Ticket Type</option>
+            <option value="2">One Day Ticket</option>
+            <option value="3">Two Day Ticket</option>
+            <option value="4">Family Package</option>
+            <option value="5">Couple PackageS</option>  
+          </select></td>
+        </tr>
+        <tr class="form-group table-warning">
+          <td><label for="f_name">Customer Name</label></td>
+          <td><input type="text" name="f_name" class="form-control" id="f_name"></td>
+        </tr>
+        <tr class="form-group table-warning">
+          <td><label for="nrc_no">NRC</label></td>
+          <td><input type="text" name="nrc_no" class="form-control" id="nrc_no"></td>
+        </tr>
+        <tr class="form-group table-warning">
+          <td><label for="ph_no">Age</label></td>
+          <td><input type="text" name="ph_no" class="form-control" id="ph_no"></td>
+        </tr>
+        <tr class="form-group table-warning">
+          <td><label for="class">Member ID</label></td>
+          <td><select name="class" id="class" class="form-control" >
+            <option value="">Select Member ID</option>
+            <option value="2">M001</option>
+            <option value="3">M002</option>
+            <option value="4">M003</option>
+            <option value="5">M004</option>  
+          </select></td>
+        </tr>
+        <tr class="form-group table-warning">
+          <td><label for="topup">Topup Amount</label></td>
+          <td><input type="text" name="topup" class="form-control" id="topup"></td>
+        </tr>
+        <tr class="form-group table-warning">
+          <td><label for="balance">Balance</label></td>
+          <td><input type="text" name="balance" class="form-control" id="balance"></td>
+        </tr>
+        <tr class="form-group table-warning">
+          <td><label for="birth">Date</label></td>
+          <td><input type="date" name="birth" class="form-control" id="birth"></td>
+        </tr>
+        <tr class="form-group table-warning">
+          <td><label for="birth">Valid From</label></td>
+          <td><input type="date" name="birth" class="form-control" id="birth"></td>
+        </tr>
+        <tr class="form-group table-warning">
+          <td><label for="birth">Valid To</label></td>
+          <td><input type="date" name="birth" class="form-control" id="birth"></td>
+        </tr>
+        <tr class="form-group table-warning">
+          <td><label for="class">Status</label></td>
+          <td><select name="class" id="class" class="form-control" >
+            <option value="">--- select status ---</option>
+            <option value="2">(Java) How to Program</option>
+            <option value="3">MongoDB</option>
+            <option value="4">Web Development Technology1</option>
+            <option value="5">Matlab For Digital Image (HR)</option>  
+          </select></td>
+        </tr>
+        <tr>
+          <td><input type="submit" value="Register" name="register" class="btn btn-sm btn-primary align-middle"></td>
+          <td><input type="submit" value="Cancel" name="register" class="btn btn-sm btn-primary align-middle"></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>
+</body>
+</html>

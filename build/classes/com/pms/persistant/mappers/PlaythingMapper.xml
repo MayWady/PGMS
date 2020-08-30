@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PlaythingMapper">
+
+	<insert id="playthingInsert" parameterType="PlaythingRequestDao">
+		INSERT INTO plaything
+		(plaything_id,plaything_name,price,description,created_date,play_count,running_count,maintenance_count,plaything_status_id,plaything_categories_id,service_count,image)
+		VALUES
+		(#{playthingId},
+		#{playthingName},#{price},#{description},#{createdDate},#{playCount},#{runningCount},#{maintenanceCount},#{playthingStatusId},#{playthingCategoriesId},#{serviceCount},#{b});
+	</insert>
+
+	<!-- <select id="getAllPlaything" resultMap="result"> SELECT * FROM plaything 
+		<where> <if test="playthingId != null"> plaything_id = #{playthingId} </if> 
+		<if test="playthingName != null"> AND plaything_name =#{playthingName} </if> 
+		</where> </select> -->
+
+	<!-- <select id="getAllPlaything" resultMap="result" parameterType="PlaythingRequestDao"> 
+		SELECT * FROM plaything <trim prefix="WHERE" prefixOverrides="AND"> <if test="playthingId 
+		!= null"> plaything_id = #{playthingId} </if> <if test="playthingName != 
+		null"> AND plaything_name = #{playthingName} </if> <if test="price != null"> 
+		AND price = #{price} </if> <if test="playthingStatusId != null"> AND plaything_status_id 
+		= #{playthingStatusId} </if> </trim> </select> -->
+
+	<select id="getAllPlaything" resultMap="result"
+		parameterType="PlaythingRequestDao">
+		SELECT *
+		FROM plaything
+
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="playthingId != null">plaything_id = #{playthingId}</if>
+			<if test="playthingName != null">AND plaything_name = #{playthingName}</if>
+			<if test="createdDate != null">AND created_date = #{createdDate}</if>
+			<if test="runningCount != 0">AND running_count &lt;= #{runningCount}</if>
+			<if test="price != 0">AND price &lt;= #{price}</if>
+			<if test="playthingStatusId != 0">AND plaything_status_id = #{playthingStatusId}</if>
+			<!-- <if test="playthingStatusId != 0">AND plaything_status_id = #{playthingStatusId}</if> -->
+		</trim>
+	</select>
+
+
+
+	<resultMap id="result" type="PlaythingResponseDao">
+		<result property="playthingId" column="plaything_id" />
+		<result property="playthingName" column="plaything_name" />
+		<result property="price" column="price" />
+		<result property="description" column="description" />
+		<result property="createdDate" column="created_date" />
+		<result property="playCount" column="play_count" />
+		<result property="runningCount" column="running_count" />
+		<result property="serviceCount" column="service_count" />
+		<result property="maintenanceCount" column="maintenance_count" />
+		<result property="playthingCategoriesId"
+			column="plaything_categories_id" />
+		<result property="playthingStatusId"
+			column="plaything_status_id" />
+		<result property="b" column="image" />
+	</resultMap>
+
+	<update id="playthingUpdate" parameterType="PlaythingRequestDao">
+		UPDATE plaything SET
+		plaything_name = #{playthingName},price=
+		#{price},description =
+		#{description},play_count =
+		#{playCount},running_count=
+		#{runningCount},service_count =
+		#{serviceCount},maintenance_count=
+		#{maintenanceCount},plaything_status_id =
+		#{playthingStatusId},plaything_categories_id =
+		#{playthingCategoriesId}
+		WHERE plaything_id=
+		#{playthingId};
+	</update>
+
+	<delete id="playthingDelete" parameterType="PlaythingRequestDao">
+		DELETE FROM plaything
+		WHERE
+		plaything_id=#{playthingId};
+	</delete>
+
+	<select id="getId" resultMap="idresult">
+		SELECT MAX(plaything_id) as
+		plaything_id FROM
+		plaything;
+	</select>
+
+	<resultMap type="String" id="idresult">
+		<result property="id" column="plaything_id" />
+	</resultMap>
+
+	<select id="getPCName" resultMap="pcResult" parameterType="int">
+		SELECT plaything_categories_name FROM plaything_categories WHERE
+		plaything_categories_id=#{playthingCategoriesId};
+	</select>
+
+	<resultMap type="String" id="pcResult">
+		<result column="plaything_categories_name" property="name" />
+	</resultMap>
+
+	<select id="getStatusName" resultMap="statusResult"
+		parameterType="int">
+		SELECT plaything_status FROM plaything_status WHERE
+		plaything_status_id=#{playthingStatusId};
+	</select>
+
+	<resultMap type="String" id="statusResult">
+		<result column="plaything_status" property="name" />
+	</resultMap>
+</mapper>
